@@ -6,7 +6,7 @@ class FictionJunction(object):
     __url_login = 'http://www.fictionjunction.org/logging.php?action=login'
 
     def __init__(self):
-        pass
+        self.r = requests.Session()
 
     def login(self):
         res = self.r.get(self.__url_login)
