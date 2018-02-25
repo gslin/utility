@@ -23,6 +23,8 @@ class FictionJunction(object):
 
     def login(self):
         res = self.r.get(self.__url_login)
+        res.encoding = 'gbk'
+
         body = lxml.html.fromstring(res.text)
 
         formhash = body.cssselect('input[name="formhash"]')[0].value
@@ -36,8 +38,6 @@ class FictionJunction(object):
             'username': self.username,
         })
         res.encoding = 'gbk'
-
-        print(res.text)
 
     def start(self):
         self.login()
