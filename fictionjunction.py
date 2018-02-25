@@ -8,7 +8,7 @@ import requests
 class FictionJunction(object):
     __url_login = 'http://www.fictionjunction.org/logging.php?action=login'
     __url_login_post = 'http://www.fictionjunction.org/logging.php?action=login&loginsubmit=yes'
-    __url_thread_template = 'http://www.fictionjunction.org/viewthread.php?tid={}'
+    __url_thread_template = 'http://www.fictionjunction.org/viewthread.php?tid={}&page={}'
 
     def __init__(self):
         self.r = requests.Session()
@@ -42,15 +42,26 @@ class FictionJunction(object):
 
     def scrape(self):
         for i in range(1, 8000):
-            url = self.__url_thread_template.format(i)
+            self.scrape_thread(i)
 
+    def scrape_thread(self, n):
+        page = 1
+
+        # Hard-code protection.
+        while page < 1000:
+            url = self.__url_thread_template.format(n, page)
             print('* Scraping webpage {}'.format(url))
             res = self.r.get(url)
             res.encoding = 'gbk'
 
             if '指定的主题不存在或已被删除或正在被审核' in res.text:
                 print('* Server return not found.')
-                continue
+                return
+
+            if '下一页' not in res.text:
+                return
+
+            page += 1
 
     def start(self):
         self.login()
