@@ -10,6 +10,9 @@ class FictionJunction(object):
 
     def login(self):
         res = self.r.get(self.__url_login)
+        body = lxml.html.fromstring(res.text)
+
+        formhash = body.cssselect('input[name="formhash"]')[0].value
 
     def start(self):
         self.login()
