@@ -10,6 +10,7 @@ class FictionJunctionPrivmsg(object):
     __url_login = 'http://www.fictionjunction.org/logging.php?action=login'
     __url_login_post = 'http://www.fictionjunction.org/logging.php?action=login&loginsubmit=yes'
     __url_privmsg = 'http://www.fictionjunction.org/pm.php?filter=privatepm&page={}'
+    __url_privmsg_template = 'http://www.fictionjunction.org/pm.php?uid={}&filter=privatepm&daterange=5'
 
     def __init__(self):
         self.r = requests.Session()
@@ -64,7 +65,16 @@ class FictionJunctionPrivmsg(object):
             page += 1
 
     def scrape_uid(self, uid):
-        pass
+        page = 1
+
+        url = self.__url_privmsg_template.format(uid)
+        print('* Scraping webpage {}'.format(url))
+        res = self.r.get(url)
+        res.encoding = 'gbk'
+
+        fname = 'fictionjunction.org-privmsg/{}.html'.format(uid)
+        with open(fname, 'wb+') as f:
+            f.write(res.content)
 
     def start(self):
         self.login()
