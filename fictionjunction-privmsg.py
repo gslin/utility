@@ -2,6 +2,7 @@
 
 import configparser
 import lxml.html
+import parse
 import os
 import requests
 
@@ -52,10 +53,18 @@ class FictionJunctionPrivmsg(object):
 
             body = lxml.html.fromstring(res.text)
 
+            for entry in body.cssselect('a[href^="pm.php?uid="]'):
+                href = entry.get('href')
+                (uid, _) = parse.parse('pm.php?uid={}&{}', href)
+                self.scrape_uid(uid)
+
             if not body.cssselect('.next'):
                 break
 
             page += 1
+
+    def scrape_uid(self, uid):
+        pass
 
     def start(self):
         self.login()
