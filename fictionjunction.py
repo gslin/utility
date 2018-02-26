@@ -58,6 +58,10 @@ class FictionJunction(object):
                 print('* Server return not found.')
                 return
 
+            fname = 'fictionjunction.org-thread/{}-{}.html'.format(n, page)
+            with open(fname, 'wb+') as f:
+                f.write(res.content)
+
             if '下一页' not in res.text:
                 return
 
