@@ -8,6 +8,7 @@ import requests
 class FictionJunctionPrivmsg(object):
     __url_login = 'http://www.fictionjunction.org/logging.php?action=login'
     __url_login_post = 'http://www.fictionjunction.org/logging.php?action=login&loginsubmit=yes'
+    __url_privmsg = 'http://www.fictionjunction.org/pm.php?filter=privatepm&page={}'
 
     def __init__(self):
         self.r = requests.Session()
@@ -39,8 +40,26 @@ class FictionJunctionPrivmsg(object):
         })
         res.encoding = 'gbk'
 
+    def scrape(self):
+        page = 1
+
+        while True:
+            url = self.__url_privmsg.format(page)
+
+            print('* Scraping webpage {}'.format(url))
+            res = self.r.get(url)
+            res.encoding = 'gbk'
+
+            body = lxml.html.fromstring(res.text)
+
+            if not body.cssselect('.next'):
+                break
+
+            page += 1
+
     def start(self):
         self.login()
+        self.scrape()
 
 if '__main__' == __name__:
     fj = FictionJunctionPrivmsg()
