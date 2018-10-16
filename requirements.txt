@@ -1,3 +1,5 @@
 lxml>=0
+MechanicalSoup>=0
 parse>=0
+pysocks>=0
 requests>=0
