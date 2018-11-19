@@ -24,5 +24,16 @@ def work():
     user2 = sys.argv[3]
     list2 = sys.argv[4]
 
+    users = t.GetListMembers(slug=list1, owner_screen_name=user1)
+    for i in range(0, cnt):
+        user = users[i]
+        print('Processing {} now...'.format(user.screen_name))
+
+        print('Delete {} from {} now...'.format(user.screen_name, list1))
+        t.DestroyListsMember(slug=list1, owner_screen_name=user1, screen_name=user.screen_name)
+
+        print('Add {} to {} now...'.format(user.screen_name, list2))
+        t.CreateListsMember(slug=list2, owner_screen_name=user2, screen_name=user.screen_name)
+
 if '__main__' == __name__:
     work()
