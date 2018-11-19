@@ -2,6 +2,7 @@
 
 import configparser
 import os
+import sys
 import twitter
 
 def work():
@@ -16,6 +17,12 @@ def work():
     t_ck = c['default']['twitter_consumer_key']
     t_cs = c['default']['twitter_consumer_secret']
     t = twitter.Api(access_token_key=t_ak, access_token_secret=t_as, consumer_key=t_ck, consumer_secret=t_cs)
+
+    cnt = int(sys.argv[5])
+    user1 = sys.argv[1]
+    list1 = sys.argv[2]
+    user2 = sys.argv[3]
+    list2 = sys.argv[4]
 
 if '__main__' == __name__:
     work()
