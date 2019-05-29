@@ -5,7 +5,7 @@ import os
 import sys
 import twitter
 
-def work():
+def main():
     home = os.environ['HOME']
     f_conf = '{}/.config/twitter-list-members-move/config.ini'.format(home)
 
@@ -40,4 +40,4 @@ def work():
             print('! Got error {}'.format(e.message))
 
 if '__main__' == __name__:
-    work()
+    main()
